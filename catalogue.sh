@@ -1,4 +1,6 @@
+#variable declaration/
 log=/tmp/roboshop.log
+
 echo -e "\e[31m>>>>>>>>>>>>>>> create catalogue service <<<<<<<<<<<<<<\e[0m"
 cp  catalogue.service /etc/systemd/system/catalogue.service &${log}
 echo -e "\e[32m>>>>>>>>>>>>>>> create Mongo DB Repo<<<<<<<<<<<<<<\e[0m" | tee -a log
