@@ -1,20 +1,31 @@
 #variable declaration/
  log=/tmp/roboshop.log
+ func_exit_status()
+ {
+  if [ $? -eg 0 ] ; then
+    echo -e "\e32m SUCCESS\e[0m"
+    else
+         echo -e "\e33m FAILURE\e[0m"
+ }
 func_apprereq()
 {
   echo -e "\e[31m>>>>>>>>>>>>>>> create $component service <<<<<<<<<<<<<<\e[0m"
     cp $component.service /etc/systemd/system/$component.service &>>${log}
+    echo $?
    echo -e "\e[34m>>>>>>>>>>>>>>> create application user<<<<<<<<<<<<<<\e[0m"
+    echo $?
 
    useradd roboshop  &>>${log}
 
    echo -e "\e[31m>>>>>>>>>>>>>>> remove the old content<<<<<<<<<<<<<<\e[0m"
    rm -rf /app  &>>${log}
+    echo $?
 
    echo -e "\e[35m>>>>>>>>>>>>>>> create application Directory<<<<<<<<<<<<<<\e[0m"
 
    mkdir /app  &>>${log}
    echo -e "\e[36m>>>>>>>>>>>>>>> download apllication content <<<<<<<<<<<<<<\e[0m"
+    func_exit_status
 
    curl -o /tmp/$component.zip https://roboshop-artifacts.s3.amazonaws.com/$component.zip &>>${log}
     echo -e "\e[36m>>>>>>>>>>>>>>> extract apllication content <<<<<<<<<<<<<<\e[0m"
@@ -26,8 +37,11 @@ func_nodejs()
 {
    echo -e "\e[32m>>>>>>>>>>>>>>> create Mongo DB Repo<<<<<<<<<<<<<<\e[0m"
  cp  mongo.repo /etc/yum.repos.d/mongo.repo &>>${log}
+func_exit_status
  echo -e "\e[33m>>>>>>>>>>>>>>> Install Nodejs Repos<<<<<<<<<<<<<<\e[0m"
+ func_exit_status
  curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${log}
+ func_exit_status
  echo -e ">>>>>>>>>>>>>>>  Install Nodejs <<<<<<<<<<<<<<\e[0m" | tee -a log
  yum install nodejs -y  &>>${log}
 
@@ -44,6 +58,8 @@ func_schema_setup()
   if [ "$(schema_type)" == "mongodb" ] ; then
         echo -e "\e[31m>>>>>>>>>>>>>>> install mongo client <<<<<<<<<<<<<<\e[0m"
   yum install mongodb-org-shell -y &>>${log}
+      echo $?
+
         echo -e "\e[33m>>>>>>>>>>>>>>> load  user schema <<<<<<<<<<<<<<\e[0m"
    mongo --host MONGODB-SERVER-IPADDRESS </app/schema/user.js &>>${log}
    fi
