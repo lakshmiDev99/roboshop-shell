@@ -4,9 +4,9 @@ echo -e ">>>>>>>>>>>>>>> create Mongo DB Repo<<<<<<<<<<<<<<"
 cp  mongo.repo /etc/yum.repos.d/mongo.repo
 echo -e ">>>>>>>>>>>>>>> Install Nodejs Repos<<<<<<<<<<<<<<"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash
-echo -e ">>>>>>>>>>>>>>>  Install Nodejs <<<<<<<<<<<<<<"
+echo -e ">>>>>>>>>>>>>>>  Install Nodejs <<<<<<<<<<<<<<\e[0m"
 yum install nodejs -y
-echo -e ">>>>>>>>>>>>>>> create application user<<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>> create application user<<<<<<<<<<<<<<"
 
 useradd roboshop
 echo -e ">>>>>>>>>>>>>>> create application Directory<<<<<<<<<<<<<<"
