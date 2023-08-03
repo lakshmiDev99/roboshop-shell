@@ -15,9 +15,11 @@ func_apprereq()
     echo $?
    echo -e "\e[34m>>>>>>>>>>>>>>> create application user<<<<<<<<<<<<<<\e[0m"
     echo $?
-
+   id roboshop &>>${log}
+   if [ $? -ne 0 ] ; then
    useradd roboshop  &>>${log}
-
+  fi
+  func_exit_status
    echo -e "\e[31m>>>>>>>>>>>>>>> remove the old content<<<<<<<<<<<<<<\e[0m"
    rm -rf /app  &>>${log}
     echo $?
