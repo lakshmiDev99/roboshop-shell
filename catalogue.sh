@@ -9,10 +9,8 @@ cd /app
 unzip /tmp/catalogue.zip
 cd /app
 npm install
-
 yum install mongodb-org-shell -y
 mongo --host MONGODB-SERVER-IPADDRESS </app/schema/catalogue.js
-
 systemctl daemon-reload
 systemctl enable catalogue
 systemctl restart catalogue
