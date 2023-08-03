@@ -3,9 +3,9 @@
  func_exit_status()
  {
   if [ $? -eq 0 ] ; then
-    echo -e "\[e32m SUCCESS\e[0m"
+    echo -e "\e[32m SUCCESS \e[0m"
     else
-         echo -e "\[e33m FAILURE\e[0m"
+         echo -e "\e[33m FAILURE \e[0m"
   fi
  }
 func_apprereq()
