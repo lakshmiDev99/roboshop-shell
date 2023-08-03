@@ -1,3 +1,11 @@
+component=user
+source common.sh
+
+func_nodejs
+
+
+
+
 cp  cart.service /etc/systemd/system/cart.service
 cp  mongo.repo /etc/yum.repos.d/mongo.repo
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash

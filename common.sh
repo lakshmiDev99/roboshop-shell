@@ -36,9 +36,24 @@ func_nodejs()
    echo -e "\e[36m>>>>>>>>>>>>>>> install dependencies <<<<<<<<<<<<<<\e[0m"
 
  npm install &>>${log}
- yum install mongodb-org-shell -y &>>${log}
- mongo --host MONGODB-SERVER-IPADDRESS </app/schema/user.js &>>${log}
+
 func_systemd
+}
+func_schema_setup()
+{
+  if [ "$(schema_type)" == "mongodb" ] ; then
+        echo -e "\e[31m>>>>>>>>>>>>>>> install mongo client <<<<<<<<<<<<<<\e[0m"
+  yum install mongodb-org-shell -y &>>${log}
+        echo -e "\e[33m>>>>>>>>>>>>>>> load  user schema <<<<<<<<<<<<<<\e[0m"
+   mongo --host MONGODB-SERVER-IPADDRESS </app/schema/user.js &>>${log}
+   fi
+
+  if [ "$(schema_type)" == "mysql" ] ; then
+    echo -e "\e[31m>>>>>>>>>>>>>>> Install Mysql service <<<<<<<<<<<<<<\e[0m"
+      yum install mysql -y &>>${log}
+          echo -e "\e[31m>>>>>>>>>>>>>>> load schema <<<<<<<<<<<<<<\e[0m"
+      mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/schema/$component.sql &>>${log}
+  fi
 }
 
 func_systemd()
@@ -60,10 +75,8 @@ func_java()
   echo -e "\e[31m>>>>>>>>>>>>>>> Build $component service <<<<<<<<<<<<<<\e[0m"
   mvn clean package &>>${log}
   mv target/$component-1.0.jar shipping.jar &>>${log}
-    echo -e "\e[31m>>>>>>>>>>>>>>> Install Mysql service <<<<<<<<<<<<<<\e[0m"
-  yum install mysql -y &>>${log}
-      echo -e "\e[31m>>>>>>>>>>>>>>> load schema <<<<<<<<<<<<<<\e[0m"
-  mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/schema/$component.sql &>>${log}
+  func_schema_setup
+
 func_systemd
 }
 func_python()
