@@ -1,18 +1,18 @@
-echo -e "\e[36m>>>>>>>>>>>>>>> create catalogue service <<<<<<<<<<<<<<\e[0m"
+echo -e "\e[31m>>>>>>>>>>>>>>> create catalogue service <<<<<<<<<<<<<<\e[0m"
 cp  catalogue.service /etc/systemd/system/catalogue.service
-echo -e ">>>>>>>>>>>>>>> create Mongo DB Repo<<<<<<<<<<<<<<"
+echo -e "\e[32m>>>>>>>>>>>>>>> create Mongo DB Repo<<<<<<<<<<<<<<\e[0m"
 cp  mongo.repo /etc/yum.repos.d/mongo.repo
-echo -e ">>>>>>>>>>>>>>> Install Nodejs Repos<<<<<<<<<<<<<<"
+echo -e "\e[33m>>>>>>>>>>>>>>> Install Nodejs Repos<<<<<<<<<<<<<<\e[0m"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash
 echo -e ">>>>>>>>>>>>>>>  Install Nodejs <<<<<<<<<<<<<<\e[0m"
 yum install nodejs -y
-echo -e "\e[36m>>>>>>>>>>>>>>> create application user<<<<<<<<<<<<<<"
+echo -e "\e[34m>>>>>>>>>>>>>>> create application user<<<<<<<<<<<<<<\e[0m"
 
 useradd roboshop
-echo -e ">>>>>>>>>>>>>>> create application Directory<<<<<<<<<<<<<<"
+echo -e "\e[35m>>>>>>>>>>>>>>> create application Directory<<<<<<<<<<<<<<\e[0m"
 
 mkdir /app
-echo -e ">>>>>>>>>>>>>>> download apllication content <<<<<<<<<<<<<<"
+echo -e "\e[36m>>>>>>>>>>>>>>> download apllication content <<<<<<<<<<<<<<\e[0m"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip
 cd /app
