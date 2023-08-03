@@ -6,6 +6,7 @@
     echo -e "\e32m SUCCESS\e[0m"
     else
          echo -e "\e33m FAILURE\e[0m"
+  fi
  }
 func_apprereq()
 {
