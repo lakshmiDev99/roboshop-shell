@@ -2,6 +2,8 @@
  log=/tmp/roboshop.log
 func_apprereq()
 {
+  echo -e "\e[31m>>>>>>>>>>>>>>> create $component service <<<<<<<<<<<<<<\e[0m"
+    cp $component.service /etc/systemd/system/$component.service &>>${log}
    echo -e "\e[34m>>>>>>>>>>>>>>> create application user<<<<<<<<<<<<<<\e[0m"
 
    useradd roboshop  &>>${log}
@@ -22,9 +24,7 @@ func_apprereq()
 }
 func_nodejs()
 {
-  echo -e "\e[31m>>>>>>>>>>>>>>> create $component service <<<<<<<<<<<<<<\e[0m"
- cp  $component.service /etc/systemd/system/$component.service &>>${log}
- echo -e "\e[32m>>>>>>>>>>>>>>> create Mongo DB Repo<<<<<<<<<<<<<<\e[0m"
+   echo -e "\e[32m>>>>>>>>>>>>>>> create Mongo DB Repo<<<<<<<<<<<<<<\e[0m"
  cp  mongo.repo /etc/yum.repos.d/mongo.repo &>>${log}
  echo -e "\e[33m>>>>>>>>>>>>>>> Install Nodejs Repos<<<<<<<<<<<<<<\e[0m"
  curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${log}
@@ -43,7 +43,7 @@ func_systemd
 
 func_systemd()
 {
-    echo -e "\e[31m>>>>>>>>>>>>>>> start $component service <<<<<<<<<<<<<<\e[0m"
+  echo -e "\e[31m>>>>>>>>>>>>>>> start $component service <<<<<<<<<<<<<<\e[0m"
   systemctl daemon-reload &>>${log}
   systemctl enable $component &>>${log}
   systemctl restart $component &>>${log}
@@ -51,8 +51,7 @@ func_systemd()
 
 func_java()
 {
-  echo -e "\e[31m>>>>>>>>>>>>>>> create $component service <<<<<<<<<<<<<<\e[0m"
-  cp $component.service /etc/systemd/system/$component.service &>>${log}
+
   echo -e "\e[31m>>>>>>>>>>>>>>> install maven <<<<<<<<<<<<<<\e[0m"
   yum install maven  &>>${log}
 
@@ -66,4 +65,17 @@ func_java()
       echo -e "\e[31m>>>>>>>>>>>>>>> load schema <<<<<<<<<<<<<<\e[0m"
   mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/schema/$component.sql &>>${log}
 func_systemd
+}
+func_python()
+{
+    echo -e "\e[31m>>>>>>>>>>>>>>> Build $component service <<<<<<<<<<<<<<\e[0m"
+  yum install python36 gcc python3-devel -y
+  useradd roboshop
+
+  func_apprereq
+    echo -e "\e[31m>>>>>>>>>>>>>>> Build $component service <<<<<<<<<<<<<<\e[0m"
+  pip3.6 install -r requirements.txt
+
+  func_systemd
+
 }
