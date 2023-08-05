@@ -126,6 +126,7 @@ func_python()
   useradd roboshop
 
   func_apprereq
+  sed -i"s/rabbitmq_app_password/${rabbitmq_app_password}/" etc/systend/system/${componennt}.service
     echo -e "\e[31m>>>>>>>>>>>>>>> Build $component service <<<<<<<<<<<<<<\e[0m"
       func_exit_status
 
