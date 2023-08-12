@@ -84,7 +84,7 @@ func_schema_setup()
           echo -e "\e[31m>>>>>>>>>>>>>>> load schema <<<<<<<<<<<<<<\e[0m"
             func_exit_status
 
-      mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pRoboShop@1 < /app/schema/$component.sql &>>${log}
+      mysql -h mysql.lakshmishine99.online -uroot -pRoboShop@1 < /app/schema/$component.sql &>>${log}
   fi
 }
 
